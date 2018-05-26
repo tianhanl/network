@@ -9,12 +9,10 @@ class NodeContainer extends React.Component {
   isDraging = false;
   // Use mouse move since pointer still requires polyfill
   handleMouseDown = e => {
-    console.log(e);
     this.isDraging = true;
     this.calculatePositionDifference(e);
   };
   handleMouseUp = e => {
-    console.log(e);
     this.isDraging = false;
   };
   handleMouseMove = e => {
