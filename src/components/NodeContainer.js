@@ -7,24 +7,6 @@ class NodeContainer extends React.Component {
   _previousLeft = 0;
   _previousTop = 0;
   isDraging = false;
-  // Use mouse move since pointer still requires polyfill
-  handleMouseDown = e => {
-    this.isDraging = true;
-    this.calculatePositionDifference(e);
-  };
-  handleMouseUp = e => {
-    this.isDraging = false;
-  };
-  handleMouseMove = e => {
-    if (!this.isDraging) return;
-    const { left, top } = this.calculatePositionDifference(e);
-    const { x, y, handlePosChange } = this.props;
-    handlePosChange({
-      x: x + left,
-      y: y + top
-    });
-  };
-
   calculatePositionDifference = e => {
     const { pageX: left, pageY: top } = e;
     const difference = {
@@ -35,6 +17,27 @@ class NodeContainer extends React.Component {
     this._previousTop = top;
     return difference;
   };
+  // Use mouse move since pointer still requires polyfill
+  handleMouseDown = e => {
+    this.isDraging = true;
+    this.calculatePositionDifference(e);
+    e.stopPropagation();
+  };
+  handleMouseUp = e => {
+    this.isDraging = false;
+    e.stopPropagation();
+  };
+  handleMouseMove = e => {
+    if (!this.isDraging) return;
+    const { left, top } = this.calculatePositionDifference(e);
+    const { x, y, handlePosChange } = this.props;
+    handlePosChange({
+      x: x + left,
+      y: y + top
+    });
+    e.stopPropagation();
+  };
+
   render() {
     const { x, y, children } = this.props;
     return (
