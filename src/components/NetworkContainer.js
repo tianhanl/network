@@ -13,11 +13,21 @@ const sampleNodes = {
   }
 };
 
+const sampleCanvas = {
+  viewerWidth: 400,
+  viewerHeight: 400,
+  canvasWidth: 500,
+  canvasHeight: 500,
+  scrollLeft: 0,
+  scrollTop: 0
+};
+
 class NetworkContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      nodes: Map(sampleNodes)
+      nodes: Map(sampleNodes),
+      canvas: sampleCanvas
     };
   }
 
@@ -28,15 +38,41 @@ class NetworkContainer extends React.Component {
     });
   };
 
+  handleCanvasDrag = pos => {
+    this.setState({
+      ...this.state,
+      canvas: {
+        ...this.state.canvas,
+        scrollLeft: this.state.canvas.scrollLeft - pos.left,
+        scrollTop: this.state.canvas.scrollTop - pos.top
+      }
+    });
+  };
+
+  setScrollPosition = pos => {
+    this.setState({
+      ...this.state,
+      canvas: {
+        ...this.state.canvas,
+        ...pos
+      }
+    });
+  };
+
   render() {
+    const { nodes, canvas } = this.state;
     return (
       <NetworkCanvas
-        viewerWidth={400}
-        viewerHeight={400}
-        canvasWidth={500}
-        canvasHeight={500}
+        viewerWidth={canvas.viewerWidth}
+        viewerHeight={canvas.viewerHeight}
+        canvasWidth={canvas.canvasWidth}
+        canvasHeight={canvas.canvasHeight}
+        scrollLeft={canvas.scrollLeft}
+        scrollTop={canvas.scrollTop}
+        handleCanvasDrag={this.handleCanvasDrag}
+        setScrollPosition={this.setScrollPosition}
       >
-        {this.state.nodes.entrySeq().map(entry => {
+        {nodes.entrySeq().map(entry => {
           const [key, node] = entry;
           return (
             <NodeContainer

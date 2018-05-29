@@ -5,10 +5,6 @@ import React from 'react';
 class NetworkCanvas extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      scrollLeft: 0,
-      scrollTop: 0
-    };
     this.viewer = React.createRef();
   }
 
@@ -16,12 +12,21 @@ class NetworkCanvas extends React.Component {
   _previousTop = 0;
   isDraging = false;
 
+  componentDidUpdate() {
+    const viewerNode = this.viewer.current;
+    const { scrollLeft, scrollTop } = this.props;
+    viewerNode.scrollLeft = scrollLeft;
+    viewerNode.scrollTop = scrollTop;
+  }
+
   calculatePositionDifference = e => {
     const { pageX: left, pageY: top } = e;
     const difference = {
       left: left - this._previousLeft,
       top: top - this._previousTop
     };
+    this._previousLeft = left;
+    this._previousTop = top;
     return difference;
   };
 
@@ -31,23 +36,22 @@ class NetworkCanvas extends React.Component {
 
   handleMouseMove = e => {
     if (!this.isDraging) return;
-    const { scrollLeft, scrollTop } = this.state;
-    const { left, top } = this.calculatePositionDifference(e);
-    const viewerNode = this.viewer.current;
-    viewerNode.scrollLeft = scrollLeft - left;
-    viewerNode.scrollTop = scrollTop - top;
+    const { handleCanvasDrag } = this.props;
+    handleCanvasDrag(this.calculatePositionDifference(e));
   };
 
   handleMouseDown = e => {
+    const { setScrollPosition } = this.props;
+    const { pageX: left, pageY: top } = e;
     const viewerNode = this.viewer.current;
     this.isDraging = true;
-    const { pageX: left, pageY: top } = e;
     this._previousLeft = left;
     this._previousTop = top;
-    this.setState({
+    const pos = {
       scrollLeft: viewerNode.scrollLeft,
       scrollTop: viewerNode.scrollTop
-    });
+    };
+    setScrollPosition(pos);
   };
 
   render() {
