@@ -69,7 +69,8 @@ class NetworkCanvas extends React.Component {
           border: '2px red solid',
           overflow: 'scroll',
           width: viewerWidth,
-          height: viewerHeight
+          height: viewerHeight,
+          cursor: 'move'
         }}
         ref={this.viewer}
         onPointerDown={this.handlePointerDown}

@@ -44,6 +44,9 @@ class NodeContainer extends React.Component {
     const { x, y, children } = this.props;
     return (
       <g
+        style={{
+          cursor: 'pointer'
+        }}
         transform={`translate(${x},${y})`}
         onPointerDown={this.handlePointerDown}
         onPointerUp={this.handlePointerUp}
