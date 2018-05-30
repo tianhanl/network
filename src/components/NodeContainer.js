@@ -1,9 +1,6 @@
 import React from 'react';
 
 class NodeContainer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   _previousLeft = 0;
   _previousTop = 0;
   isDraging = false;
@@ -43,9 +40,9 @@ class NodeContainer extends React.Component {
     return (
       <g
         transform={`translate(${x},${y})`}
-        onMouseDown={this.handleMouseDown}
-        onMouseUp={this.handleMouseUp}
-        onMouseMove={this.handleMouseMove}
+        onPointerDown={this.handleMouseDown}
+        onPointerUp={this.handleMouseUp}
+        onPointerMove={this.handleMouseMove}
       >
         {children}
       </g>

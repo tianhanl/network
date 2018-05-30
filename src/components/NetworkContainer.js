@@ -1,17 +1,21 @@
 import React from 'react';
+import { observer } from 'mobx-react';
 import NodeContainer from './NodeContainer';
-import { Map } from 'immutable';
 import NetworkCanvas from './NetworkCanvas';
-const sampleNodes = {
-  1: {
+import nodesStore from '../stores/nodesStore';
+import { values } from 'mobx';
+const sampleNodes = [
+  {
+    id: 1,
     x: 400,
     y: 400
   },
-  2: {
+  {
+    id: 2,
     x: 0,
     y: 0
   }
-};
+];
 
 const sampleCanvas = {
   viewerWidth: 400,
@@ -22,20 +26,22 @@ const sampleCanvas = {
   scrollTop: 0
 };
 
+@observer
 class NetworkContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      nodes: Map(sampleNodes),
       canvas: sampleCanvas
     };
+    this.nodesStore = nodesStore;
+  }
+
+  componentDidMount() {
+    this.nodesStore.initializeNodes(sampleNodes);
   }
 
   handlePosChange = id => pos => {
-    this.setState({
-      ...this.state,
-      nodes: this.state.nodes.set(id, pos)
-    });
+    this.nodesStore.changeNodePos(id, pos);
   };
 
   handleCanvasDrag = pos => {
@@ -60,7 +66,7 @@ class NetworkContainer extends React.Component {
   };
 
   render() {
-    const { nodes, canvas } = this.state;
+    const { canvas } = this.state;
     return (
       <NetworkCanvas
         viewerWidth={canvas.viewerWidth}
@@ -72,14 +78,13 @@ class NetworkContainer extends React.Component {
         handleCanvasDrag={this.handleCanvasDrag}
         setScrollPosition={this.setScrollPosition}
       >
-        {nodes.entrySeq().map(entry => {
-          const [key, node] = entry;
+        {values(this.nodesStore.nodes).map(node => {
           return (
             <NodeContainer
-              key={key}
+              key={node.id}
               x={node.x}
               y={node.y}
-              handlePosChange={this.handlePosChange(key)}
+              handlePosChange={this.handlePosChange(node.id)}
             >
               <rect width="100" height="100" />
             </NodeContainer>

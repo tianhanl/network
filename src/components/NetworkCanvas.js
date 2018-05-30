@@ -72,9 +72,9 @@ class NetworkCanvas extends React.Component {
           height: viewerHeight
         }}
         ref={this.viewer}
-        onMouseDown={this.handleMouseDown}
-        onMouseUp={this.handleMouseUp}
-        onMouseMove={this.handleMouseMove}
+        onPointerDown={this.handleMouseDown}
+        onPointerUp={this.handleMouseUp}
+        onPointerMove={this.handleMouseMove}
       >
         <svg width={canvasWidth} height={canvasHeight}>
           {children}
