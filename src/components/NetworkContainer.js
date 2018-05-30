@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import NodeContainer from './NodeContainer';
 import NetworkCanvas from './NetworkCanvas';
 import nodesStore from '../stores/nodesStore';
+import canvasStore from '../stores/canvasStore';
 import { values } from 'mobx';
 const sampleNodes = [
   {
@@ -30,14 +31,13 @@ const sampleCanvas = {
 class NetworkContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      canvas: sampleCanvas
-    };
     this.nodesStore = nodesStore;
+    this.canvasStore = canvasStore;
   }
 
   componentDidMount() {
     this.nodesStore.initializeNodes(sampleNodes);
+    this.canvasStore.restoreCanvas(sampleCanvas);
   }
 
   handlePosChange = id => pos => {
@@ -45,36 +45,22 @@ class NetworkContainer extends React.Component {
   };
 
   handleCanvasDrag = pos => {
-    this.setState({
-      ...this.state,
-      canvas: {
-        ...this.state.canvas,
-        scrollLeft: this.state.canvas.scrollLeft - pos.left,
-        scrollTop: this.state.canvas.scrollTop - pos.top
-      }
-    });
+    this.canvasStore.changeCanvasScrollPos(pos);
   };
 
   setScrollPosition = pos => {
-    this.setState({
-      ...this.state,
-      canvas: {
-        ...this.state.canvas,
-        ...pos
-      }
-    });
+    this.canvasStore.setCanvasScrollPos(pos);
   };
 
   render() {
-    const { canvas } = this.state;
     return (
       <NetworkCanvas
-        viewerWidth={canvas.viewerWidth}
-        viewerHeight={canvas.viewerHeight}
-        canvasWidth={canvas.canvasWidth}
-        canvasHeight={canvas.canvasHeight}
-        scrollLeft={canvas.scrollLeft}
-        scrollTop={canvas.scrollTop}
+        viewerWidth={this.canvasStore.canvas.viewerWidth}
+        viewerHeight={this.canvasStore.canvas.viewerHeight}
+        canvasWidth={this.canvasStore.canvas.canvasWidth}
+        canvasHeight={this.canvasStore.canvas.canvasHeight}
+        scrollLeft={this.canvasStore.canvas.scrollLeft}
+        scrollTop={this.canvasStore.canvas.scrollTop}
         handleCanvasDrag={this.handleCanvasDrag}
         setScrollPosition={this.setScrollPosition}
       >

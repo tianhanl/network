@@ -48,8 +48,8 @@ class NetworkCanvas extends React.Component {
     this._previousLeft = left;
     this._previousTop = top;
     const pos = {
-      scrollLeft: viewerNode.scrollLeft,
-      scrollTop: viewerNode.scrollTop
+      left: viewerNode.scrollLeft,
+      top: viewerNode.scrollTop
     };
     setScrollPosition(pos);
   };

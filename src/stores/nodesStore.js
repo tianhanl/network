@@ -2,6 +2,11 @@ import { observable, action } from 'mobx';
 
 export class NodesStore {
   @observable nodes = observable.map();
+
+  getNode(id) {
+    return this.nodes.get(id);
+  }
+
   @action
   initializeNodes(initialNodes) {
     initialNodes.forEach(node => {
