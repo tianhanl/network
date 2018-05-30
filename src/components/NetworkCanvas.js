@@ -30,17 +30,17 @@ class NetworkCanvas extends React.Component {
     return difference;
   };
 
-  handleMouseUp = e => {
+  handlePointerUp = e => {
     this.isDraging = false;
   };
 
-  handleMouseMove = e => {
+  handlePointerMove = e => {
     if (!this.isDraging) return;
     const { handleCanvasDrag } = this.props;
     handleCanvasDrag(this.calculatePositionDifference(e));
   };
 
-  handleMouseDown = e => {
+  handlePointerDown = e => {
     const { setScrollPosition } = this.props;
     const { pageX: left, pageY: top } = e;
     const viewerNode = this.viewer.current;
@@ -72,9 +72,9 @@ class NetworkCanvas extends React.Component {
           height: viewerHeight
         }}
         ref={this.viewer}
-        onPointerDown={this.handleMouseDown}
-        onPointerUp={this.handleMouseUp}
-        onPointerMove={this.handleMouseMove}
+        onPointerDown={this.handlePointerDown}
+        onPointerUp={this.handlePointerUp}
+        onPointerMove={this.handlePointerMove}
       >
         <svg width={canvasWidth} height={canvasHeight}>
           {children}

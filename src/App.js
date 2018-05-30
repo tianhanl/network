@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import DevTools from 'mobx-react-devtools';
 import './App.css';
 import NetworkContainer from './components/NetworkContainer';
 
@@ -7,6 +8,7 @@ class App extends Component {
     return (
       <div className="App">
         <NetworkContainer />
+        <DevTools />
       </div>
     );
   }
