@@ -8,7 +8,7 @@ export class NodesStore {
   }
 
   @action
-  initializeNodes(initialNodes) {
+  restoreNodes(initialNodes) {
     initialNodes.forEach(node => {
       this.nodes.set(node.id, node);
     });

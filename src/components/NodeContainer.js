@@ -1,5 +1,7 @@
 import React from 'react';
+import { observer } from 'mobx-react';
 
+@observer
 class NodeContainer extends React.Component {
   _previousLeft = 0;
   _previousTop = 0;
@@ -32,22 +34,22 @@ class NodeContainer extends React.Component {
   handlePointerMove = e => {
     if (!this.isDraging) return;
     const { left, top } = this.calculatePositionDifference(e);
-    const { x, y, handlePosChange } = this.props;
+    const { node, handlePosChange } = this.props;
     handlePosChange({
-      x: x + left,
-      y: y + top
+      x: node.x + left,
+      y: node.y + top
     });
     e.stopPropagation();
   };
 
   render() {
-    const { x, y, children } = this.props;
+    const { node, children } = this.props;
     return (
       <g
         style={{
           cursor: 'pointer'
         }}
-        transform={`translate(${x},${y})`}
+        transform={`translate(${node.x},${node.y})`}
         onPointerDown={this.handlePointerDown}
         onPointerUp={this.handlePointerUp}
         onPointerMove={this.handlePointerMove}

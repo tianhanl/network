@@ -1,7 +1,19 @@
 import React from 'react';
+import { inject, observer } from 'mobx-react';
+import { autorun } from 'mobx';
+
+const sampleCanvas = {
+  viewerWidth: 400,
+  viewerHeight: 400,
+  canvasWidth: 500,
+  canvasHeight: 500,
+  scrollLeft: 0,
+  scrollTop: 0
+};
 
 // Automatically scroll viewport accroding to mousemove
-
+@inject('canvasStore')
+@observer
 class NetworkCanvas extends React.Component {
   constructor(props) {
     super(props);
@@ -12,11 +24,21 @@ class NetworkCanvas extends React.Component {
   _previousTop = 0;
   isDraging = false;
 
-  componentDidUpdate() {
+  componentDidMount() {
+    const { canvasStore } = this.props;
+    canvasStore.restoreCanvas(sampleCanvas);
+    autorun(() =>
+      this.scrollViewerTo(
+        canvasStore.canvas.scrollLeft,
+        canvasStore.canvas.scrollTop
+      )
+    );
+  }
+
+  scrollViewerTo(left, top) {
     const viewerNode = this.viewer.current;
-    const { scrollLeft, scrollTop } = this.props;
-    viewerNode.scrollLeft = scrollLeft;
-    viewerNode.scrollTop = scrollTop;
+    viewerNode.scrollLeft = left;
+    viewerNode.scrollTop = top;
   }
 
   calculatePositionDifference = e => {
@@ -36,12 +58,12 @@ class NetworkCanvas extends React.Component {
 
   handlePointerMove = e => {
     if (!this.isDraging) return;
-    const { handleCanvasDrag } = this.props;
-    handleCanvasDrag(this.calculatePositionDifference(e));
+    this.props.canvasStore.changeCanvasScrollPos(
+      this.calculatePositionDifference(e)
+    );
   };
 
   handlePointerDown = e => {
-    const { setScrollPosition } = this.props;
     const { pageX: left, pageY: top } = e;
     const viewerNode = this.viewer.current;
     this.isDraging = true;
@@ -51,17 +73,18 @@ class NetworkCanvas extends React.Component {
       left: viewerNode.scrollLeft,
       top: viewerNode.scrollTop
     };
-    setScrollPosition(pos);
+    this.props.canvasStore.setCanvasScrollPos(pos);
   };
 
   render() {
+    const { canvasStore, children } = this.props;
     const {
       viewerWidth,
       viewerHeight,
       canvasWidth,
-      canvasHeight,
-      children
-    } = this.props;
+      canvasHeight
+    } = canvasStore.canvas;
+
     return (
       <div
         id={'network-container'}
