@@ -3,10 +3,10 @@ import { inject, observer } from 'mobx-react';
 import { autorun } from 'mobx';
 
 const sampleCanvas = {
-  viewerWidth: 400,
-  viewerHeight: 400,
-  canvasWidth: 500,
-  canvasHeight: 500,
+  viewerWidth: 600,
+  viewerHeight: 600,
+  canvasWidth: 700,
+  canvasHeight: 700,
   scrollLeft: 0,
   scrollTop: 0
 };

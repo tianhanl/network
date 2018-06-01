@@ -23,6 +23,7 @@ export default class EdgesContainer extends Component {
       <React.Fragment>
         {edgesStore.edges.map(edge => (
           <Edge
+            key={edge.id}
             fromNode={nodesStore.getNode(edge.fromNodeId)}
             toNode={nodesStore.getNode(edge.toNodeId)}
           />

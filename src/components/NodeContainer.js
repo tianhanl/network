@@ -49,6 +49,7 @@ class NodeContainer extends React.Component {
         style={{
           cursor: 'pointer'
         }}
+        id={`node-${node.id}`}
         transform={`translate(${node.x},${node.y})`}
         onPointerDown={this.handlePointerDown}
         onPointerUp={this.handlePointerUp}

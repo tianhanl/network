@@ -6,7 +6,15 @@ import NetworkContainer from './components/NetworkContainer';
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div
+        className="App"
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh'
+        }}
+      >
         <NetworkContainer />
         <DevTools />
       </div>

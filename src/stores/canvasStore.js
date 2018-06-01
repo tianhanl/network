@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 
 export class CanvasStore {
   @observable
@@ -32,6 +32,30 @@ export class CanvasStore {
   setCanvasScrollPos(pos) {
     this.canvas.scrollLeft = pos.left;
     this.canvas.scrollTop = pos.top;
+  }
+  @action
+  handleNodePosChange(pos) {
+    const leftDistance = this.canvas.scrollLeft - pos.x;
+    const topDistance = this.canvas.scrollTop - pos.y;
+    if (leftDistance >= 0) {
+      this.canvas.scrollLeft -= leftDistance;
+    }
+    if (topDistance >= 0) {
+      this.canvas.scrollTop -= topDistance;
+    }
+
+    const rightDistance =
+      pos.x + 100 - this.canvas.viewerWidth - this.canvas.scrollLeft;
+    const bottomDistance =
+      pos.y + 100 - this.canvas.viewerHeight - this.canvas.scrollTop;
+    if (rightDistance >= 0) {
+      this.canvas.canvasWidth += rightDistance;
+      this.canvas.scrollLeft += rightDistance;
+    }
+    if (bottomDistance >= 0) {
+      this.canvas.canvasHeight += bottomDistance;
+      this.canvas.scrollTop += bottomDistance;
+    }
   }
   @action
   changeCanvasScrollPos(pos) {

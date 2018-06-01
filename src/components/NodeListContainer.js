@@ -17,7 +17,7 @@ const sampleNodes = [
   }
 ];
 
-@inject('nodesStore')
+@inject('nodesStore', 'canvasStore')
 @observer
 class NodeListContainer extends Component {
   static propTypes = {};
@@ -28,6 +28,7 @@ class NodeListContainer extends Component {
 
   handlePosChange = id => pos => {
     this.props.nodesStore.changeNodePos(id, pos);
+    this.props.canvasStore.handleNodePosChange(pos);
   };
 
   render() {
