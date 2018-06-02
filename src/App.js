@@ -15,7 +15,14 @@ class App extends Component {
           height: '100vh'
         }}
       >
-        <NetworkContainer />
+        <div
+          style={{
+            border: '2px #F07883 solid'
+          }}
+        >
+          <NetworkContainer />
+        </div>
+
         <DevTools />
       </div>
     );

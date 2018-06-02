@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import draggable from '../utils/draggable';
+import DefaultNode from './DefaultNode';
 
 @observer
 class NodeContainer extends React.Component {
@@ -10,8 +11,10 @@ class NodeContainer extends React.Component {
       children,
       handlePointerDown,
       handlePointerMove,
-      handlePointerUp
+      handlePointerUp,
+      isDragging
     } = this.props;
+    console.log(children);
     return (
       <g
         style={{
@@ -23,7 +26,7 @@ class NodeContainer extends React.Component {
         onPointerUp={handlePointerUp}
         onPointerMove={handlePointerMove}
       >
-        {children}
+        {children || <DefaultNode />}
       </g>
     );
   }

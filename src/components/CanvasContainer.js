@@ -14,7 +14,7 @@ const sampleCanvas = {
 // Automatically scroll viewport accroding to mousemove
 @inject('canvasStore')
 @observer
-class NetworkCanvas extends React.Component {
+class CanvasContainer extends React.Component {
   constructor(props) {
     super(props);
     this.viewer = React.createRef();
@@ -89,7 +89,6 @@ class NetworkCanvas extends React.Component {
       <div
         id={'network-container'}
         style={{
-          border: '2px red solid',
           overflow: 'scroll',
           width: viewerWidth,
           height: viewerHeight,
@@ -108,4 +107,4 @@ class NetworkCanvas extends React.Component {
   }
 }
 
-export default NetworkCanvas;
+export default CanvasContainer;

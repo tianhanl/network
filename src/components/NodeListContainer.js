@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { observer, inject } from 'mobx-react';
+import { observer, inject, propTypes } from 'mobx-react';
 import { values } from 'mobx';
 
 import NodeContainer from './NodeContainer';
@@ -20,8 +20,6 @@ const sampleNodes = [
 @inject('nodesStore', 'canvasStore')
 @observer
 class NodeListContainer extends Component {
-  static propTypes = {};
-
   componentDidMount() {
     this.props.nodesStore.restoreNodes(sampleNodes);
   }
@@ -45,14 +43,17 @@ class NodeListContainer extends Component {
               node={node}
               key={node.id}
               handlePosChange={this.handlePosChange(node.id)}
-            >
-              <rect width="100" height="100" />
-            </NodeContainer>
+            />
           );
         })}
       </React.Fragment>
     );
   }
 }
+
+NodeListContainer.propTypes = {
+  nodesStore: PropTypes.object,
+  canvasStore: PropTypes.object
+};
 
 export default NodeListContainer;

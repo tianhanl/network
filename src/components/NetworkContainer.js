@@ -1,5 +1,5 @@
 import React from 'react';
-import NetworkCanvas from './NetworkCanvas';
+import CanvasContainer from './CanvasContainer';
 import { Provider } from 'mobx-react';
 import nodesStore from '../stores/nodesStore';
 import canvasStore from '../stores/canvasStore';
@@ -13,10 +13,10 @@ class NetworkContainer extends React.Component {
   render() {
     return (
       <Provider {...stores}>
-        <NetworkCanvas>
+        <CanvasContainer>
           <EdgesContainer />
           <NodeListContainer />
-        </NetworkCanvas>
+        </CanvasContainer>
       </Provider>
     );
   }
