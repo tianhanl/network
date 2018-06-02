@@ -5,12 +5,7 @@ const getDisplayName = WrappedComponent =>
   WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
 const draggable = WrappedComponent => {
-  return class extends React.Component {
-    constructor(props) {
-      super(props);
-      this.displayName = `Draggable(${getDisplayName(WrappedComponent)})`;
-    }
-
+  class Draggable extends React.Component {
     // hidden parameters used
     _previousLeft = 0;
     _previousTop = 0;
@@ -62,7 +57,11 @@ const draggable = WrappedComponent => {
         />
       );
     }
-  };
+  }
+
+  Draggable.displayName = `Draggable(${getDisplayName(WrappedComponent)})`;
+
+  return Draggable;
 };
 
 export default draggable;
