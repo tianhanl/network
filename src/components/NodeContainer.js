@@ -19,6 +19,7 @@ class NodeContainer extends React.Component {
   // Use mouse move since pointer still requires polyfill
   handlePointerDown = e => {
     this.isDraging = true;
+    e.target.setPointerCapture(e.pointerId);
     this.calculatePositionDifference(e);
     e.preventDefault();
     e.stopPropagation();
@@ -27,10 +28,7 @@ class NodeContainer extends React.Component {
     this.isDraging = false;
     e.stopPropagation();
   };
-  hanldePointerLeave = e => {
-    this.isDraging = false;
-    e.stopPropagation();
-  };
+
   handlePointerMove = e => {
     if (!this.isDraging) return;
     const { left, top } = this.calculatePositionDifference(e);
