@@ -26,9 +26,14 @@ class NodeListContainer extends Component {
     this.props.nodesStore.restoreNodes(sampleNodes);
   }
 
-  handlePosChange = id => pos => {
-    this.props.nodesStore.changeNodePos(id, pos);
-    this.props.canvasStore.handleNodePosChange(pos);
+  handlePosChange = id => difference => {
+    const { nodesStore, canvasStore } = this.props;
+    const newPosition = {
+      x: nodesStore.getNode(id).x + difference.left,
+      y: nodesStore.getNode(id).y + difference.top
+    };
+    nodesStore.changeNodePos(id, newPosition);
+    canvasStore.handleNodePosChange(newPosition);
   };
 
   render() {
