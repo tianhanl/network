@@ -21,7 +21,6 @@ class NodeContainer extends React.Component {
     this.isDraging = true;
     e.target.setPointerCapture(e.pointerId);
     this.calculatePositionDifference(e);
-    e.preventDefault();
     e.stopPropagation();
   };
   handlePointerUp = e => {
